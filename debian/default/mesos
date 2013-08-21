@@ -1,0 +1,8 @@
+MESOS_CONFIG_DIR=/etc/mesos/
+MESOS_MASTER_PORT=5050
+MESOS_SLAVE_PORT=5051
+
+# See http://google-glog.googlecode.com/svn/trunk/doc/glog.html#flags
+GLOG_minloglevel=0  # 0=INFO, 1=WARNING, 2=ERROR, 3=FATAL
+GLOG_v=0            # Show all VLOG(m) messages where m <= GLOG_v
+GLOG_vmodule=""     # Per-module verbose level

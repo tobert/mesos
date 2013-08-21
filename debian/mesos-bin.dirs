@@ -1,0 +1,3 @@
+/var/log/mesos
+/var/lib/mesos
+/var/lib/mesos/frameworks

@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+#export DH_VERBOSE=1
+
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
+
+PYVERS := $(shell pyversions -vr)
+
+export GTEST_FILTER = "-CgroupsAnyHierarchyWithCpuMemoryFreezerTest.*"
+export DEB_LDFLAGS_MAINT_APPEND = -Wl,--as-needed,-lsnappy
+
+%:
+	dh $@ --parallel --with autoreconf --with python2
+
+override_dh_auto_configure:
+	dh_auto_configure -- --prefix=/usr
+
+override_dh_auto_build:
+	dh_auto_build
+	# Build Python bindings
+	cd src/python && \
+		for pv in $(PYVERS); do \
+			python$$pv setup.py build --build-base=$(CURDIR)/src/python/build ;\
+		done
+
+override_dh_install:
+	# Install Python bindings
+	cd src/python && \
+		for pv in $(PYVERS); do \
+			python$$pv setup.py build --build-base=$(CURDIR)/src/python/build \
+								 install --root=$(CURDIR)/debian/tmp --install-layout=deb ;\
+		done
+	dh_install

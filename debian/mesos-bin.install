@@ -1,0 +1,5 @@
+debian/default/mesos /etc/default
+debian/mesos.conf /etc/mesos
+/usr/bin
+/usr/lib/*/mesos /usr/lib
+/usr/share
